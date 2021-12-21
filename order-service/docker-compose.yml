@@ -1,0 +1,53 @@
+version: '3.1'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - X:\docker\rabbitmq:/var/lib/rabbitmq/
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=123456
+  dbkeycloak:
+    image: mysql
+    container_name: mysqlKeycloak
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - 3308:3306
+    environment:
+      MYSQL_DATABASE: keycloak
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: keycloak
+      MYSQL_PASSWORD: password
+    volumes:
+      - X:\docker\mysqlkeycloak:/var/lib/mysql
+  db:
+    image: mysql
+    container_name: mysqlOrder
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: orderService
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: orderService
+      MYSQL_PASSWORD: password
+    volumes:
+      - X:\docker\dbmysql:/var/lib/mysql
+  keycloak:
+    image: quay.io/keycloak/keycloak:12.0.4
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+    ports:
+      - 8085:8080
+
+volumes:
+  rabbitmq:
+  mysqlkeycloak:
+  dbmysql:

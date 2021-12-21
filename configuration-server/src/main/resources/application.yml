@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: configuration-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/seitit/configuration-props-server.git
+          clone-on-start: true
+          username:
+          password:
+          default-label: main
+server:
+  port: 8888

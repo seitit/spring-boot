@@ -1,0 +1,35 @@
+server:
+  port: 0
+
+spring:
+  cloud:
+    stream:
+      source: notificationEventSupplier
+      bindings:
+        notificationEventSupplier-out-0.destination: notification-events
+  config:
+    import: optional:configserver:http://localhost:8888
+  application:
+    name: order-sevice
+  jmx:
+    enabled: false
+  datasource:
+    url: jdbc:mysql://localhost:3306/orderService?allowPublicKeyRetrieval=true&sslMode=DISABLED&createDatabaseIfNotExist=true
+    username: root
+    password: root
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: 123456
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${random.uuid}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
